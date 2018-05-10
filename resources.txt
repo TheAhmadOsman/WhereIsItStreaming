@@ -1,0 +1,20 @@
+https://github.com/lingthio/Flask-User
+
+https://github.com/dawoudt/JustWatchAPI
+
+https://www.kaggle.com/rounakbanik/the-movies-dataset
+http://imdb.com/interfaces
+
+https://github.com/alberanid/imdbpy/blob/master/imdb/Movie.py
+https://github.com/alberanid/imdbpy
+
+https://github.com/bnmnetp/CS330/blob/master/finalproject.md
+
+https://flickmetrix.com/
+
+Tables: moves, reviews, users, personalization,
+
+table contents
+
+movie: IMDBid, ourKey, genre, title, cast, director, year, mpaa rating
+reviews: IMDBid, ourKey, average rating, reviews...
