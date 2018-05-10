@@ -1,0 +1,6 @@
+Tables: moves, reviews, users, personalization,
+
+table contents
+
+movie: IMDBid, ourKey, genre, title, cast, director, year, mpaa rating
+reviews: IMDBid, ourKey, average rating, reviews...
