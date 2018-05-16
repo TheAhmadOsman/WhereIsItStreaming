@@ -1,11 +1,10 @@
-Tables: moves, reviews, users, personalization,
+Tables: moves, casts, ratings, users, personalization,
 
 table contents
 
-movies: IMDBid, kaggleId, genres, title, release_date, homepage, poster_path, tagline
-casts: kaggleId, cast, crew
-reviews (not yet created): IMDBid, reviews...
-ratings (not yet created): IMDBid, ratings...
+movies: IMDBid, primary(kaggleId), genres, title, release_date, homepage, poster_path, tagline
+casts: primary and linked to movies(kaggleId), cast, crew
+ratings: primary and linked to movies(kaggleId), rating, ratingCount
 
 all picture paths on kaggle should be directed to:
 http://image.tmdb.org/t/p/w(target_width)//path_here.jpg
