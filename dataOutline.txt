@@ -2,9 +2,10 @@ Tables: moves, casts, ratings, users, personalization,
 
 table contents
 
-movies: IMDBid, primary(kaggleId), genres, title, release_date, homepage, poster_path, tagline
-casts: primary and linked to movies(kaggleId), cast, crew
-ratings: primary and linked to movies(kaggleId), rating, ratingCount
+movies: IMDBid, primary(id), overview, genres, title, release_date, homepage, poster_path, tagline
+casts: linked to movies(id), character, name, profile_path
+crews: linked to movies(id), name, role
+ratings: linked to movies(id), rating
 
 all picture paths on kaggle should be directed to:
 http://image.tmdb.org/t/p/w(target_width)//path_here.jpg
