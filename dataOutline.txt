@@ -10,3 +10,9 @@ ratings: linked to movies(id), rating
 all picture paths on kaggle should be directed to:
 http://image.tmdb.org/t/p/w(target_width)//path_here.jpg
 		no parentheses on target_width
+
+users: primary(userid), unique(username), password
+liked: id, linked to users(userid)
+viewed: id, linked to users(userid)
+searched: id, linked to users(userid)
+
