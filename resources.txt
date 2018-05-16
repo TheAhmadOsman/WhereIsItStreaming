@@ -40,6 +40,7 @@ Notes
 --------------------------------------------------------------------------------------------------
 
 Routes
+    Register
     Login
     Logout
     Search
@@ -62,6 +63,8 @@ Templates
 
 Design
     Base -> Navbar with Logo, Pages, Search(WTF Forms), and Logout
+    Index -> Description with Logo and Login and Registration Links
+    Registration -> Logo, Description, WTF Form to Register
     Login -> Logo, Description, and Login WTForm
     Everything Else Inherits from Base
     Main -> Random 50 Movies
@@ -74,11 +77,12 @@ WTForms
     Login
     Search
 
-Plugins
+Plugins/APIs
+    JustWatch
     Flask-WTF
     Flask-User
     Flask-Images
-    flask-StormPath
+    Flask-StormPath
 
 User Interface
     Bootstrap
