@@ -4,16 +4,16 @@ import json
 from ast import literal_eval
 
 # fetch the csv files from https://www.kaggle.com/rounakbanik/the-movies-dataset
-# drop in a folder called kaggle and run, it should take around a minute or two
+# drop in a folder called data and run, it should take around a minute or two
 
 # setup movies.db
 db = sqlite3.connect("movies.db")
 curs = db.cursor()
 
 # open our kaggle files
-csvfile = open("kaggle/movies_metadata.csv", "r")
-stars = open("kaggle/credits.csv", "r")
-ratings = open("kaggle/ratings.csv", "r")
+csvfile = open("data/movies_metadata.csv", "r")
+stars = open("data/credits.csv", "r")
+ratings = open("data/ratings.csv", "r")
 
 # initalize DictReader objects for the files
 movieReader = csv.DictReader(csvfile)
@@ -21,18 +21,16 @@ starReader = csv.DictReader(stars)
 ratingsReader = csv.DictReader(ratings)
 
 # create empty tables
-curs.execute("DROP TABLE IF EXISTS users")
-curs.execute("CREATE TABLE IF NOT EXISTS users")
-curs.execute("DROP TABLE IF EXISTS liked")
-curs.execute("CREATE TABLE IF NOT EXISTS liked")
-curs.execute("DROP TABLE IF EXISTS viewed")
-curs.execute("CREATE TABLE IF NOT EXISTS viewed")
-curs.execute("DROP TABLE IF EXISTS searched")
-curs.execute("CREATE TABLE IF NOT EXISTS searched")
+curs.execute("CREATE TABLE IF NOT EXISTS users(userid TEXT UNIQUE, username TEXT UNIQUE, password TEXT, PRIMARY KEY(userid))")
+curs.execute(
+    "CREATE TABLE IF NOT EXISTS liked(id TEXT, userid TEXT, FOREIGN KEY(userid) REFERENCES users(userid))")
+curs.execute(
+    "CREATE TABLE IF NOT EXISTS viewed(id TEXT, userid TEXT, FOREIGN KEY(userid) REFERENCES users(userid))")
+curs.execute(
+    "CREATE TABLE IF NOT EXISTS searched(id TEXT, userid TEXT, FOREIGN KEY(userid) REFERENCES users(userid))")
 
 # create and populate movies table
 print("Populating movies table")
-curs.execute("DROP TABLE IF EXISTS movies")
 curs.execute("CREATE TABLE IF NOT EXISTS movies(imdb_id TEXT, id TEXT UNIQUE, overview TEXT, genres TEXT, title TEXT, release_date TEXT, homepage TEXT, poster_path TEXT, tagline TEXT, PRIMARY KEY (imdb_id))")
 
 # make genres look nice
@@ -48,9 +46,7 @@ print("Movies table created successfully")
 
 # create and populate both casts and crews tables
 print("Populating casts and crews tables")
-curs.execute("DROP TABLE IF EXISTS casts")
 curs.execute("CREATE TABLE IF NOT EXISTS casts(id TEXT, character TEXT, name TEXT, profile_path TEXT, FOREIGN KEY (id) REFERENCES movies(id))")
-curs.execute("DROP TABLE IF EXISTS crews")
 curs.execute(
     "CREATE TABLE IF NOT EXISTS crews(id TEXT, name TEXT, role TEXT, FOREIGN KEY(id) REFERENCES movies(id))")
 
@@ -86,7 +82,6 @@ print("Casts and crews created successfully")
 
 # create and populate ratings table
 print("Populating ratings tables")
-curs.execute("DROP TABLE IF EXISTS ratings")
 curs.execute(
     "CREATE TABLE IF NOT EXISTS ratings(id TEXT, rating TEXT, FOREIGN KEY(id) REFERENCES movies(id))")
 for row in ratingsReader:
