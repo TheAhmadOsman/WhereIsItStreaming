@@ -1,0 +1,10 @@
+__pycache__/
+venv
+
+others
+
+.vscode
+
+data
+
+.swp

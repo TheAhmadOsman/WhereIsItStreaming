@@ -1,20 +1,132 @@
-https://github.com/lingthio/Flask-User
+--------------------------------------------------------------------------------------------------
 
-https://github.com/dawoudt/JustWatchAPI
+Requirements
+    You must have at least three controllers (Think python functions with @app.route decorators)
+    You must have at least three views (Think templates)
+    You must use records or SqlAlchemy and create a database with 3-4 tables. These tables should incorporate a one to many relationship in some way, or they may have a many to many relationship. -- We'll look at this in class next week.
+    You should incorporate the WTForms module into your application for processing form data. -- You can teach yourself this from the tutorial.
+    You should provide a small AJAX API for some aspect of the project that you use in your web pages. Or you may incorporate some other more advanced Flask Plugin that you OK with me.
+    Your program must use the bootstrap templates, and you must make an attempt to make it look aesthetically nice.
 
-https://www.kaggle.com/rounakbanik/the-movies-dataset
-http://imdb.com/interfaces
+--------------------------------------------------------------------------------------------------
 
-https://github.com/alberanid/imdbpy/blob/master/imdb/Movie.py
-https://github.com/alberanid/imdbpy
+Tables: Movies - Cast - Crew - Ratings - Users - Liked - Viewed - Searched
 
-https://github.com/bnmnetp/CS330/blob/master/finalproject.md
+Movies
+    Many to Many -> Movies to Cast
+    Many to Many -> Movies to Crew
+    One to Many -> Ratings
 
-https://flickmetrix.com/
+Users
+    One to Many -> Liked
+    One to Many -> Viewed
+    One to Many -> Searched
 
-Tables: moves, reviews, users, personalization,
+Notes
+    movie: IMDBid, ourKey, genre, title, cast, director, year, mpaa rating
+    reviews: IMDBid, ourKey, average rating, reviews...
 
-table contents
+    table contents
 
-movie: IMDBid, ourKey, genre, title, cast, director, year, mpaa rating
-reviews: IMDBid, ourKey, average rating, reviews...
+    movies: IMDBid, kaggleId, genres, title, release_date, homepage, poster_path, tagline
+    casts: kaggleId, cast, crew
+    reviews (not yet created): IMDBid, reviews...
+    ratings (not yet created): IMDBid, ratings...
+
+        all picture paths on kaggle should be directed to:
+        http://image.tmdb.org/t/p/w(target_width)//path_here.jpg
+                no parentheses on target_width
+
+--------------------------------------------------------------------------------------------------
+
+Routes
+    Login
+    Logout
+    Search
+    Searched
+    View
+    Viewed
+    Like
+    Unlike
+    Liked
+
+Templates
+    Base
+    Index -> Login
+    Main
+    Search
+    Movies
+    Liked
+    Viewed
+    Searched
+
+Design
+    Base -> Navbar with Logo, Pages, Search(WTF Forms), and Logout
+    Login -> Logo, Description, and Login WTForm
+    Everything Else Inherits from Base
+    Main -> Random 50 Movies
+    Search -> Movies, left side is a picture, right side is the movie title, Crew, and Cast names, Genres, Tagline. The Picture and Title Clickable.
+    Movies -> Everything Above, plus streaming services and Likes and Description
+    Viewed -> List of what would be in a Search page
+    Searched -> List of what would be in a Search page
+
+WTForms
+    Login
+    Search
+
+Plugins
+    Flask-WTF
+    Flask-User
+    Flask-Images
+    flask-StormPath
+
+User Interface
+    Bootstrap
+    Flask-Bootstrap
+
+--------------------------------------------------------------------------------------------------
+
+Data Sources
+    https://www.kaggle.com/rounakbanik/the-movies-dataset
+    https://snap.stanford.edu/data/web-Amazon.html
+    http://jmcauley.ucsd.edu/data/amazon/
+
+Streaming Services API
+    https://github.com/dawoudt/JustWatchAPI
+
+Tools
+    http://flask.pocoo.org/extensions/
+
+    https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+    https://pythonhosted.org/Flask-Bootstrap/basic-usage.html
+    http://flask.pocoo.org/docs/1.0/templating/
+    
+    https://flask-wtf.readthedocs.io/en/stable/install.html
+    https://wtforms.readthedocs.io/en/stable/
+    http://flask.pocoo.org/docs/0.12/patterns/wtforms/
+    https://pythonhosted.org/Flask-Bootstrap/forms.html
+
+    https://github.com/lingthio/Flask-User
+    https://flask-user.readthedocs.io/en/latest/index.html
+
+    https://mikeboers.github.io/Flask-Images/
+    
+    http://flask-stormpath.readthedocs.io/en/latest/
+
+Inspirations
+    https://github.com/bnmnetp/CS330/blob/master/finalproject.md
+    https://flickmetrix.com
+
+Databases
+    https://www.rottentomatoes.com
+    https://www.themoviedb.org/
+    https://www.amazon.com
+    https://movielens.org
+    https://www.imdb.com
+
+IMDB
+    https://github.com/alberanid/imdbpy/blob/master/imdb/Movie.py
+    https://github.com/alberanid/imdbpy
+    http://imdb.com/interfaces
+
+--------------------------------------------------------------------------------------------------
