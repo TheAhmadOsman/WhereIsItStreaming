@@ -28,7 +28,17 @@ def returnCast(title):
         movieId = item[0]
     if not movieId:
         return {}
-    res = curs.execute("SELECT * FROM cast WHERE id = '%s'" %(
+    res = curs.execute("SELECT * FROM casts WHERE id = '%s'" %(movieId))
+    castList = []
+    for item in res:
+        castDict = {}        
+        castDict["id"] = item[0]
+        castDict["character"] = item[1]
+        castDict["name"] = item[2]
+        castDict["profile_path"] = item[3]
+        castList.append(castDict)
+    return castList
+    
 
 def returnCrew(title):
     res = curs.execute("SELECT id FROM movies WHERE title = '%s'" %(title))
@@ -37,15 +47,35 @@ def returnCrew(title):
         movieId = item[0]
     if not movieId:
         return {}
+    res = curs.execute("SELECT * FROM crews WHERE id = '%s'" %(movieId))
+    crewList = []
+    for item in res:
+        crewDict = {}        
+        crewDict["id"] = item[0]
+        crewDict["name"] = item[1]
+        crewDict["role"] = item[2]
+        crewList.append(crewDict)
+    return crewList
 
-def returnReviews(title):
+def returnRatings(title):
     res = curs.execute("SELECT id FROM movies WHERE title = '%s'" %(title))
     movieId = None
     for item in res:
         movieId = item[0]
     if not movieId:
         return {}
-
-returnCast("Cast Away")
+    res = curs.execute("SELECT * FROM ratings WHERE id = '%s'" %(movieId))
+    ratingsList = []
+    for item in res:
+        ratingsDict = {}        
+        ratingsDict["id"] = item[0]
+        ratingsDict["rating"] = item[1]
+        ratingsList.append(ratingsDict)
+    return ratingsList
+    
+print(returnFilm("Cast Away"))
+print(returnCast("Captain Phillips"))
+print(returnCrew("The Da Vinci Code"))
+print(returnRatings("Forrest Gump"))
 
 db.close()

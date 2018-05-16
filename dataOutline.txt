@@ -1,0 +1,18 @@
+Tables: moves, casts, ratings, users, personalization,
+
+table contents
+
+movies: IMDBid, primary(id), overview, genres, title, release_date, homepage, poster_path, tagline
+casts: linked to movies(id), character, name, profile_path
+crews: linked to movies(id), name, role
+ratings: linked to movies(id), rating
+
+all picture paths on kaggle should be directed to:
+http://image.tmdb.org/t/p/w(target_width)//path_here.jpg
+		no parentheses on target_width
+
+users: primary(userid), unique(username), password
+liked: id, linked to users(userid)
+viewed: id, linked to users(userid)
+searched: id, linked to users(userid)
+
