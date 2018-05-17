@@ -1,6 +1,9 @@
 import sqlite3
 db = sqlite3.connect("movies.db")
 curs = db.cursor()
+#import sqlalchemy
+#from sqlalchemy import create_engine
+#engine = create_engine("sqlite:///movi.db", echo = False)
 
 def returnFilm(title):
     res = curs.execute("SELECT * FROM movies WHERE title = '%s'" %(title))
@@ -61,14 +64,23 @@ def returnRatings(movieid):
 
 def insert(userid, movieid, table):
     curs.execute("""INSERT INTO %s(id, userid) VALUES(?,?)""" %(table), (movieid, userid))
-    
-print(returnFilm("Forrest Gump"))
-print(returnCast("Forrest Gump"))
-print(returnCrew("Forrest Gump"))
-print(returnRatings(862))
-insert(999, 862, "searched")
-res = curs.execute("SELECT * FROM searched")
-for item in res:
-    print(item)
 
-db.close()
+def randomMovies():
+    res = curs.execute("""SELECT * FROM movies 
+    WHERE id IN (SELECT id FROM movies ORDER BY RANDOM() LIMIT 20)""")
+    film = None
+    filmList = []
+    filmDict = {}
+    for item in res:
+        film = item
+        filmDict["IMDBid"] = film[0]
+        filmDict["id"] = film[1]
+        filmDict["overview"] = film[2]
+        filmDict["genres"] = film[3]
+        filmDict["title"] = film[4]
+        filmDict["release_date"] = film[5]
+        filmDict["homepage"] = film[6]
+        filmDict["poster_path"] = film[7]
+        filmDict["tagline"] = film[8]
+        filmList.append(filmDict)
+    return filmList
