@@ -23,12 +23,34 @@ def returnFilm(title):
     return filmList
 
 
+def returnOneFilm(movieid):
+    db = sqlite3.connect("movies.db")
+    curs = db.cursor()
+    res = curs.execute(
+        "SELECT * FROM movies WHERE id = %d" % (movieid))
+    filmList = []
+    for film in res:
+        filmDict = {}
+        filmDict["id"] = film[0]
+        filmDict["IMDBid"] = film[1]
+        filmDict["overview"] = film[2]
+        filmDict["genres"] = film[3]
+        filmDict["title"] = film[4]
+        filmDict["release_date"] = film[5]
+        filmDict["homepage"] = film[6]
+        filmDict["poster_path"] = film[7]
+        filmDict["tagline"] = film[8]
+        filmList.append(filmDict)
+    db.close()
+    return filmList
+
+
 def returnCast(movieid):
     db = sqlite3.connect("movies.db")
     curs = db.cursor()
     res = curs.execute("""SELECT character, name, profile_path FROM movies INNER JOIN casts 
     ON movies.id = casts.id
-    WHERE (movies.title = %d)""" % (movieid))
+    WHERE (movies.id = %d)""" % (movieid))
     castList = []
     for item in res:
         castDict = {}
@@ -89,8 +111,8 @@ def randomMovies():
     for film in res:
         if film[7] != "" and len(filmList) < 20:
             filmDict = {}
-            filmDict["IMDBid"] = film[0]
-            filmDict["id"] = film[1]
+            filmDict["id"] = film[0]
+            filmDict["IMDBid"] = film[1]
             filmDict["overview"] = film[2]
             filmDict["genres"] = film[3]
             filmDict["title"] = film[4]
