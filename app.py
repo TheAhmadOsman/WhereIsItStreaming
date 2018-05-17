@@ -6,6 +6,7 @@ from wtforms import Form, BooleanField, StringField, PasswordField, validators
 from wtforms.validators import Required, InputRequired, Email, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import query
 
 
 app = Flask(__name__)
@@ -98,6 +99,15 @@ def dashboard():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route("/result")
+#@login_required
+def result():
+    films = query.randomMovies()
+    return "<h3> Loading Movies... </h3>"
+    if len(films) >= 20:
+        print(len(films))
+        return render_template("result.html", films = films)
 
 
 if __name__ == '__main__':
