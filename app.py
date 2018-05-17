@@ -160,10 +160,9 @@ def movie():
         return render_template("main.html", films = films, form = form)
     
     movieid = int(request.args["id"])
-    film = query.returnFilm(movieid)
+    film = query.returnOneFilm(movieid)
     cast = query.returnCast(movieid)
     crew = query.returnCrew(movieid)
-    ratings = ""
     ratings = query.returnRatings(movieid)
     return render_template("movie.html", form = form, film = film, cast = cast, crew = crew, ratings = ratings)
 
