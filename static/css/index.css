@@ -1,0 +1,19 @@
+body {
+  padding-top: 50px;
+}
+
+.index {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.index-btns {
+  float: center;
+  padding: 10px;
+  height: 40px;
+  width: 100px;
+  margin-left: 25px;
+  margin-right: 25px;
+  font-weight: bold;
+  border: 2px solid black;
+}

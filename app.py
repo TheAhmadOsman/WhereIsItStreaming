@@ -3,9 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import Form, BooleanField, StringField, PasswordField, validators
-from wtforms.validators import Required, InputRequired, Email, Length
+from wtforms.validators import Required, InputRequired, Email, Length, ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import sqlite3
 from justwatch import JustWatch
 import json
 import query
@@ -35,20 +36,35 @@ def load_user(user_id):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('username', validators=[
+    username = StringField('Username', validators=[
         InputRequired(), Length(min=4, max=15)])
-    password = PasswordField('password', validators=[
+    password = PasswordField('Password', validators=[
         InputRequired(), Length(min=8, max=80)])
-    remember = BooleanField('remember me')
+    remember = BooleanField('Remember Me')
+
+    def validate_username(self, username):
+        user = Users.query.filter_by(username=username.data).first()
+        if user is not None:
+            raise ValidationError('Username or password are wrong.')
 
 
 class RegisterForm(FlaskForm):
-    email = StringField('email', validators=[InputRequired(), Email(
+    email = StringField('Email', validators=[InputRequired(), Email(
         message='Invalid email'), Length(max=50)])
-    username = StringField('username', validators=[
+    username = StringField('Username', validators=[
         InputRequired(), Length(min=4, max=15)])
-    password = PasswordField('password', validators=[
+    password = PasswordField('Password', validators=[
         InputRequired(), Length(min=8, max=80)])
+
+    def validate_username(self, username):
+        user = Users.query.filter_by(username=username.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different username.')
+
+    def validate_email(self, email):
+        user = Users.query.filter_by(email=email.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different email address.')
 
 
 class SearchCriteria(FlaskForm):
@@ -93,9 +109,6 @@ def login():
                 login_user(user, remember=form.remember.data)
                 return redirect(url_for('dashboard'))
 
-        return '<h1>Invalid username or password</h1>'
-        # return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
-
     return render_template('login.html', form=form)
 
 
@@ -111,7 +124,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        return '<h1>New user has been created!</h1>'
+        return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
 

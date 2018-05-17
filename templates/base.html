@@ -1,38 +1,57 @@
-{% import "bootstrap/wtf.html" as wtf %}
-{% block html %}
+{% import "bootstrap/wtf.html" as wtf %} {% block html %}
 <html>
-	<head>
-		<title>Movies</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<link rel= "stylesheet" type= "text/css" href= "/static/style.css">
-	</head>
-	<body>
-		{% block navbar %}
-		<nav class="navbar navbar-default">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <a class="navbar-brand" href="/">Movies Are Dope</a>
-		    </div>
-		    <div class="collapse navbar-collapse">
-		      <ul class="nav navbar-nav">
-		        <li class="active"><a href="/main">Home</a></li>
-		        <li><a href="/">Liked</a></li>
-		        <li class=active><a href="/">Viewed</a></li>
-		        <li><a href="/">Searched</a></li>
-		      </ul>
-		      <ul class="nav navbar-nav navbar-right">
-		      	<li class=active><a href="/">About Us</a></li>
-		      	<li>
-		      	   {{ wtf.quick_form(form,form_type="horizontal",horizontal_columns=("sm",4,4),button_map={"submit": "primary"}) }}
-		      	</li>
-			</ul>
-		    </div>
-		  </div>
-		</nav>
-		{% endblock %}
-	</body>
+
+<head>
+	<title>Movies</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/style.css">
+	<link type="image/x-icon" href="{{url_for( '.static', filename='favicon.ico')}}" rel="shortcut icon">
+</head>
+
+<body>
+	{% block navbar %}
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/main">Fun Times &ndash; Your Movies Entertaining Guide!</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="/main">Home</a>
+					</li>
+					<li>
+						<a href="/">Liked</a>
+					</li>
+					<li class=active>
+						<a href="/">Viewed</a>
+					</li>
+					<li>
+						<a href="/">Searched</a>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class=active>
+						<a href="/">About Us</a>
+					</li>
+					<li>
+						{{ wtf.quick_form(form,form_type="horizontal",horizontal_columns=("sm",4,4),button_map={"submit": "primary"}) }}
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	{% endblock %}
+</body>
+
+{% block footer %}
+<footer class="panel-heading margin-y-lg text-center align-top bg-dark" id="footer">
+	<b>Fun Times &copy; 2018</b>
+</footer>
+{% endblock %}
+
 </html>
 {% endblock %}

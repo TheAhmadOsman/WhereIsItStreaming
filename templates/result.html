@@ -1,23 +1,19 @@
-{% extends "base.html" %}
-{% block html %}
-	{{ super() }}
-{% block result %}
+{% extends "base.html" %} {% block html %} {{ super() }} {% block result %}
 <div class="container">
 	{% block title %}
 	<h2 class=text-center>Movies for you</h2>
-	<br>
-	{% endblock %}
-	{% for film in range(films|length) %}
+	<br> {% endblock %} {% for film in range(films|length) %}
 	<div class="col-md-3 panel panel-primary text-center" style="height: 400px; border-radius: 10%;">
-		<div class="panel-heading" style = "border-radius: 9%;">
-		<h4>{{films[film]['title']}}</h4>
+		<div class="panel-heading" style="border-radius: 9%;">
+			<h4>{{films[film]['title']}}</h4>
 		</div>
 		<div class="panel-body size_hack">
-			<a href="/movie?id={{films[film]['id']}}"><img src="http://image.tmdb.org/t/p/w200//{{films[film]['poster_path']}}" alt="Sorry" style="border-radius: 10%;"></a>
+			<a href="/movie?id={{films[film]['id']}}">
+				<img src="http://image.tmdb.org/t/p/w200//{{films[film]['poster_path']}}" alt="Sorry" style="border-radius: 10%;">
+			</a>
 		</div>
 		<hr style="border-color:white">
+	</div>
+	{% endfor %}
 </div>
-{% endfor %}
-</div>
-{% endblock %}
-{% endblock %}
+{% endblock %} {% endblock %}

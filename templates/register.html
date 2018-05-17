@@ -1,0 +1,14 @@
+{% extends "index.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block title %} Registration {% endblock %} {% block
+styles %} {{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/login.css')}}"> {% endblock %} {% block navbar %} {{super()}} {% endblock %} {% block content %}
+
+<div class="container">
+    <form class="form-login" method="POST" action="/register">
+        <h2 class="form-login-heading text-center">Sign Up</h2>
+        {{ form.hidden_tag() }} {{ wtf.form_field(form.username) }} {{ wtf.form_field(form.email) }} {{ wtf.form_field(form.password)
+        }}
+        <button class="btn btn-lg btn-block sign-btns" type="submit">Sign Up</button>
+    </form>
+</div>
+
+{% block footer %} {{super()}} {% endblock %} {% endblock %}

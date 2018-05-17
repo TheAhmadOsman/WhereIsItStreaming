@@ -1,42 +1,39 @@
-{% extends "base.html" %}
-{% block html %}
-	{{ super() }}
-{% block film %}
+{% extends "base.html" %} {% block html %} {{ super() }} {% block film %}
 <div class="container">
 	{% block title %}
 	<div class="col-md-12 text-center">
 		<h1>{{film[0]['title']}}</h1>
 		<br>
 		<div class="col-md-6">
-			<img src="http://image.tmdb.org/t/p/w300//{{film[0]['poster_path']}}" alt="Sorry" style="border-radius: 10%;"></a>
+			<img src="http://image.tmdb.org/t/p/w300//{{film[0]['poster_path']}}" alt="Sorry" style="border-radius: 10%;">
+			</a>
 		</div>
 		<div class="col-md-6">
-		<h3>Released {{film[0]["release_date"]}}</h3>
+			<h3>Released {{film[0]["release_date"]}}</h3>
 		</div>
 		<div class="col-md-6">
-		<h3>{{film[0]["genres"]}}</h3>
+			<h3>{{film[0]["genres"]}}</h3>
 		</div>
 		<div class="col-md-6">
-		<h3>{{film[0]["overview"]}}</h3>
+			<h3>{{film[0]["overview"]}}</h3>
 		</div>
 		<div class="col-md-12">
 			<h2>Starring</h2>
 			{% for member in range(cast|length) %}
 			<div class="col-md-4 panel panel-primary text-center" style="height: 400px; border-radius: 10%;">
-				<div class="panel-heading" style = "border-radius: 9%;">
-				<h4>{{cast[member]['name']}}</h4>
+				<div class="panel-heading" style="border-radius: 9%;">
+					<h4>{{cast[member]['name']}}</h4>
 				</div>
 				<div class="panel-body size_hack">
 					<figure>
-					<img src="http://image.tmdb.org/t/p/w200//{{cast[member]['profile_path']}}" alt="Sorry" style="border-radius: 10%;">
-					<figcaption>{{cast[member]['character']}}</figcaption>
+						<img src="http://image.tmdb.org/t/p/w200//{{cast[member]['profile_path']}}" alt="Sorry" style="border-radius: 10%;">
+						<figcaption>{{cast[member]['character']}}</figcaption>
 					</figure>
 				</div>
 				<hr style="border-color:white">
-		</div>
+			</div>
 			{% endfor %}
 		</div>
-	{% endblock %}
-</div>
-{% endblock %}
-{% endblock %}
+		{% endblock %}
+	</div>
+	{% endblock %} {% endblock %}
