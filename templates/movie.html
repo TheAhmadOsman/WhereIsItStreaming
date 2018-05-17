@@ -18,6 +18,67 @@ film %}
 		<div class="col-md-6">
 			<h3 style="text-align:justify;">{{film[0]["overview"]}}</h3>
 		</div>
+			<div class="col-md-6">
+				<h3>Rating</h3>
+				{% if rating == 5 %}
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star" style="color: orange"></span>
+				{% endif %}
+				{% if rating == 4 %}
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star"></span>
+				{% endif %}
+				{% if rating == 3 %}
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+				{% endif %}
+				{% if rating == 2 %}
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+				{% endif %}
+				{% if rating == 1 %}
+				<span class="fa fa-star" style="color: orange"></span>
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+				{% endif %}
+				{% if rating == 0 %}
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+				{% endif %}
+			</div>
+				<div class="col-md-3">
+					<h4>Rent</h4>
+				{% for item in range(rent|length) %}
+				<div class="col-md-12">
+					<a href="{{rent[item]['url']}}" target=_blank>{{rent[item]["provider"]}} - {{rent[item]['price']}}</a>
+				</div>
+				{% endfor %}
+			</div>
+				<div class="col-md-3">
+					<h4>Buy</h4>
+				{% for item in range(buy|length) %}
+				<div class="col-md-12">
+					<a href="{{buy[item]['url']}}" target=_blank>{{buy[item]["provider"]}} - {{buy[item]['price']}}</a>
+				</div>
+				{% endfor %}
+			</div>
 		{% endblock %}
 	</div>
 	<div class="col-md-12">

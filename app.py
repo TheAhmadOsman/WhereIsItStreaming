@@ -67,9 +67,9 @@ class SearchCriteria(FlaskForm):
                          InputRequired(), Length(max=30)])
 
 
-def streaming(title="the matrix"):
+def streaming(title):
     just_watch = JustWatch(country='US')
-    results = just_watch.search_for_item(query='the matrix')
+    results = just_watch.search_for_item(query=title)
 
     providers = {2:  "iTunes", 10:  "Youtube", 68:  "Microsoft",
                  15:  "Hulu", 8:  "Netflix", 7:  "Vudu", 3:  "Google Play"}
@@ -170,9 +170,12 @@ def movie():
     film = query.returnOneFilm(movieid)
     cast = query.returnCast(movieid)
     crew = query.returnCrew(movieid)
-    ratings = ""
     ratings = query.returnRatings(movieid)
-    return render_template("movie.html", form=form, film=film, cast=cast, crew=crew, ratings=ratings)
+    rating = round(ratings[0]["rating"])
+    stream = streaming(film[0]["title"])
+    rent = stream["rent"]
+    buy = stream["buy"]  
+    return render_template("movie.html", rent = rent, buy = buy, form=form, film=film, cast=cast, crew=crew, rating=rating)
 
 
 @app.route("/liked", methods=["GET", "POST"])

@@ -59,7 +59,7 @@ for row in starReader:
     cast = literal_eval(row["cast"])
     crew = literal_eval(row["crew"])
     for item in cast:
-        if item["order"] < 7:
+        if item["order"] < 9:
             curs.execute('''INSERT INTO casts(id, character, name, profile_path) VALUES(?,?,?,?)''',
                          (int(row["id"]), item["character"], item["name"], item["profile_path"]))
     for item in crew:

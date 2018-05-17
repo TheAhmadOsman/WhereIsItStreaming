@@ -4,3 +4,6 @@
     overflow: hidden;
     margin: 10px;
 }
+.checked {
+    color: orange;
+}

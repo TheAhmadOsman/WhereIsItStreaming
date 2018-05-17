@@ -1,0 +1,5 @@
+.size_hack { float:left; height:100px; overflow:hidden; margin:10px; }
+
+.checked {
+    color: orange;
+}
