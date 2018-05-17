@@ -21,10 +21,10 @@ def returnFilm(title):
     filmDict["tagline"] = film[8]
     return filmDict
 
-def returnCast(title):
+def returnCast(movieid):
     res = curs.execute("""SELECT character, name, profile_path FROM movies INNER JOIN casts 
     ON movies.id = casts.id
-    WHERE (movies.title = '%s')""" %(title))
+    WHERE (movies.title = %d)""" %(movieid))
     castList = []
     for item in res:
         castDict = {}        
@@ -35,10 +35,10 @@ def returnCast(title):
     return castList
     
 
-def returnCrew(title):
+def returnCrew(movieid):
     res = curs.execute("""SELECT name, role FROM movies INNER JOIN crews 
     ON movies.id = crews.id
-    WHERE (movies.title = '%s')""" %(title))
+    WHERE (movies.id = %d)""" %(movieid))
     crewList = []
     for item in res:
         crewDict = {}        
