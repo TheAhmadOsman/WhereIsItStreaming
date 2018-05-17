@@ -17,3 +17,7 @@ body {
   font-weight: bold;
   border: 2px solid black;
 }
+
+.footer-css {
+  margin-top: 50px;
+}

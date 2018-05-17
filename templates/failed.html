@@ -1,0 +1,12 @@
+<!DOCTYPE html> {% extends "index.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block title %} Error {% endblock %} {% block styles
+%} {{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/login.css')}}"> {% endblock %} {% block navbar %} {{super()}} {% endblock %} {% block content %}
+<div class="container">
+    <h2 class="form-login-heading text-center failed">Username or password are incorrect. Please try again.</h2>
+    <div class="text-center">
+        <a href="{{ url_for('login') }}" type="button" class="btn btn-default index-btns">Login</a>
+        <a href="{{ url_for('register') }}" type="button" class="btn btn-default index-btns">Register</a>
+    </div>
+
+</div>
+{% block footer %} {{super()}} {% endblock %} {% endblock %}

@@ -51,5 +51,8 @@ body {
 }
 
 .failed {
-  margin: 250px;
+  margin-top: 250px;
+  margin-left: 250px;
+  margin-right: 250px;
+  margin-bottom: 100px;
 }

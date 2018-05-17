@@ -42,11 +42,6 @@ class LoginForm(FlaskForm):
         InputRequired(), Length(min=8, max=80)])
     remember = BooleanField('Remember Me')
 
-    def validate_username(self, username):
-        user = Users.query.filter_by(username=username.data).first()
-        if user is not None:
-            raise ValidationError('Username or password are wrong.')
-
 
 class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Email(
@@ -68,7 +63,7 @@ class RegisterForm(FlaskForm):
 
 
 class SearchCriteria(FlaskForm):
-    search = StringField("Search", validators=[
+    search = StringField("", validators=[
                          InputRequired(), Length(max=30)])
 
 
@@ -107,7 +102,9 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('main'))
+        else:
+            return render_template('failed.html')
 
     return render_template('login.html', form=form)
 
@@ -129,12 +126,6 @@ def register():
     return render_template('register.html', form=form)
 
 
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return render_template('dashboard.html', name=current_user.username)
-
-
 @app.route('/logout')
 @login_required
 def logout():
@@ -143,7 +134,7 @@ def logout():
 
 
 @app.route("/main", methods=['GET', 'POST'])
-#@login_required
+@login_required
 def main():
     films = query.randomMovies()
 
@@ -164,7 +155,7 @@ def main():
 
 
 @app.route("/movie", methods=["GET", "POST"])
-#@login_required
+@login_required
 def movie():
     form = SearchCriteria()
     if form.validate_on_submit():
@@ -182,6 +173,30 @@ def movie():
     ratings = ""
     ratings = query.returnRatings(movieid)
     return render_template("movie.html", form=form, film=film, cast=cast, crew=crew, ratings=ratings)
+
+
+@app.route("/liked", methods=["GET", "POST"])
+@login_required
+def liked():
+    return render_template("liked.html")
+
+
+@app.route("/viewed", methods=["GET", "POST"])
+@login_required
+def viewed():
+    return render_template("viewed.html")
+
+
+@app.route("/searched", methods=["GET", "POST"])
+@login_required
+def searched():
+    return render_template("searched.html")
+
+
+@app.route("/about", methods=["GET"])
+@login_required
+def about():
+    return render_template("about.html")
 
 
 if __name__ == '__main__':

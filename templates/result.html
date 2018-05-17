@@ -1,10 +1,11 @@
-{% extends "base.html" %} {% block html %} {{ super() }} {% block result %}
+<!DOCTYPE html> {% extends "base.html" %} {% block title %} Movies for You!{% endblock %} {% block html %} {{ super() }} {% block result
+%}
 <div class="container">
-	{% block title %}
-	<h2 class=text-center>Movies for you</h2>
-	<br> {% endblock %} {% for film in range(films|length) %}
-	<div class="col-md-3 panel panel-primary text-center" style="height: 400px; border-radius: 10%;">
-		<div class="panel-heading" style="border-radius: 9%;">
+	<br>
+	<h2 class="text-center">Movies for you!</h2>
+	<br>{% for film in range(films|length) %}
+	<div class="col-md-3 panel panel-default text-center" style="height: 400px; border-radius: 10%;">
+		<div style="border-radius: 9%;">
 			<h4>{{films[film]['title']}}</h4>
 		</div>
 		<div class="panel-body size_hack">
@@ -16,4 +17,4 @@
 	</div>
 	{% endfor %}
 </div>
-{% endblock %} {% endblock %}
+{% block footer %} {{super()}} {% endblock %} {% endblock %} {% endblock %}
