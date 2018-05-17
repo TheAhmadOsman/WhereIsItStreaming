@@ -149,7 +149,7 @@ def main():
         films = query.returnFilm(search)
         if len(films) == 0:
             msg = "No results found for %s" % (search)
-            return render_template("main.html", films=[{"title": msg}], form=form)
+            return render_template("main.html", form=form)
         return render_template("main.html", films=films, form=form)
     return render_template("main.html", films=films, form=form)
 
@@ -163,7 +163,7 @@ def movie():
         films = query.returnFilm(search)
         if len(films) == 0:
             msg = "No results found for %s" % (search)
-            return render_template("main.html", films=[{"title": msg}], form=form)
+            return render_template("main.html", form=form)
         return render_template("main.html", films=films, form=form)
 
     movieid = int(request.args["id"])
@@ -178,18 +178,45 @@ def movie():
 @app.route("/liked", methods=["GET", "POST"])
 @login_required
 def liked():
-    return render_template("liked.html")
+    form = SearchCriteria()
+    if form.validate_on_submit():
+        search = str(form.search.data)
+        films = query.returnFilm(search)
+        if len(films) == 0:
+            msg = "No results found for %s" % (search)
+            return render_template("main.html", form=form)
+        return render_template("main.html", films=films, form=form)
+
+    return render_template("liked.html", form=form)
 
 
 @app.route("/viewed", methods=["GET", "POST"])
 @login_required
 def viewed():
+    form = SearchCriteria()
+    if form.validate_on_submit():
+        search = str(form.search.data)
+        films = query.returnFilm(search)
+        if len(films) == 0:
+            msg = "No results found for %s" % (search)
+            return render_template("main.html", form=form)
+        return render_template("main.html", films=films, form=form)
+
     return render_template("viewed.html")
 
 
 @app.route("/searched", methods=["GET", "POST"])
 @login_required
 def searched():
+    form = SearchCriteria()
+    if form.validate_on_submit():
+        search = str(form.search.data)
+        films = query.returnFilm(search)
+        if len(films) == 0:
+            msg = "No results found for %s" % (search)
+            return render_template("main.html", form=form)
+        return render_template("main.html", films=films, form=form)
+
     return render_template("searched.html")
 
 
@@ -202,7 +229,7 @@ def about():
         films = query.returnFilm(search)
         if len(films) == 0:
             msg = "No results found for %s" % (search)
-            return render_template("main.html", films=[{"title": msg}], form=form)
+            return render_template("main.html", form=form)
         return render_template("main.html", films=films, form=form)
 
     return render_template("about.html", form=form)
