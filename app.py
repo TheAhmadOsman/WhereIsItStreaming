@@ -193,7 +193,7 @@ def searched():
     return render_template("searched.html")
 
 
-@app.route("/about", methods=["GET"])
+@app.route("/about", methods=["GET", "POST"])
 @login_required
 def about():
     return render_template("about.html")
