@@ -22,13 +22,13 @@ ratingsReader = csv.DictReader(ratings)
 
 # create empty tables --> User-based
 curs.execute(
-    "CREATE TABLE IF NOT EXISTS users(userid INT UNIQUE, username CHAR(30) UNIQUE, email CHAR(64) UNIQUE, password CHAR(120), PRIMARY KEY(userid))")
+    "CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, username CHAR(15) UNIQUE, email CHAR(50) UNIQUE, password CHAR(80))")
 curs.execute(
-    "CREATE TABLE IF NOT EXISTS liked(id INT, userid INT, FOREIGN KEY(userid) REFERENCES users(userid), FOREIGN KEY(id) REFERENCES movies(id))")
+    "CREATE TABLE IF NOT EXISTS liked(movieid INT, userid INT, FOREIGN KEY(userid) REFERENCES users(id), FOREIGN KEY(movieid) REFERENCES movies(id))")
 curs.execute(
-    "CREATE TABLE IF NOT EXISTS viewed(id INT, userid INT, FOREIGN KEY(userid) REFERENCES users(userid), FOREIGN KEY(id) REFERENCES movies(id))")
+    "CREATE TABLE IF NOT EXISTS viewed(movieid INT, userid INT, FOREIGN KEY(userid) REFERENCES users(id), FOREIGN KEY(movieid) REFERENCES movies(id))")
 curs.execute(
-    "CREATE TABLE IF NOT EXISTS searched(id INT, userid INT, FOREIGN KEY(userid) REFERENCES users(userid), FOREIGN KEY(id) REFERENCES movies(id))")
+    "CREATE TABLE IF NOT EXISTS searched(movieid INT, userid INT, FOREIGN KEY(userid) REFERENCES users(id), FOREIGN KEY(movieid) REFERENCES movies(id))")
 
 # create and populate movies table
 print("Populating movies table")

@@ -130,6 +130,7 @@ Tools
 
 Inspirations
     https://github.com/bnmnetp/CS330/blob/master/finalproject.md
+    https://www.justwatch.com
     https://flickmetrix.com
 
 Databases
@@ -145,3 +146,12 @@ IMDB
     http://imdb.com/interfaces
 
 --------------------------------------------------------------------------------------------------
+
+JustWatch Providers
+    provider_id: 2 -> iTunes
+    provider_id: 10 -> Youtube
+    provider_id: 68 -> Microsoft
+    provider_id: 15 -> Hulu
+    provider_id: 8 -> Netflix
+    provider_id: 7 -> Vudu
+    provider_id: 3 -> Google Play

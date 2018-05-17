@@ -6,6 +6,9 @@ from wtforms import Form, BooleanField, StringField, PasswordField, validators
 from wtforms.validators import Required, InputRequired, Email, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from justwatch import JustWatch
+import json
+import query
 
 
 app = Flask(__name__)
@@ -20,7 +23,7 @@ login_manager.login_view = 'login'
 
 
 class Users(UserMixin, db.Model):
-    userid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15), unique=True)
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(80))
@@ -46,6 +49,27 @@ class RegisterForm(FlaskForm):
         InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[
         InputRequired(), Length(min=8, max=80)])
+
+
+def streaming(title="the matrix"):
+    just_watch = JustWatch(country='US')
+    results = just_watch.search_for_item(query='the matrix')
+
+    providers = {2:  "iTunes", 10:  "Youtube", 68:  "Microsoft",
+                 15:  "Hulu", 8:  "Netflix", 7:  "Vudu", 3:  "Google Play"}
+
+    dct = {"rent": [], "buy": []}
+    for item in results["items"][0]["offers"]:
+        try:
+            dct2 = {}
+            dct2["provider"] = providers[item["provider_id"]]
+            dct2["price"] = item["retail_price"]
+            dct2["url"] = item["urls"]["standard_web"]
+            dct[item["monetization_type"]].append(dct2)
+        except:
+            continue
+
+    return dct
 
 
 @app.route('/')
@@ -98,6 +122,16 @@ def dashboard():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route("/result")
+@login_required
+def result():
+    films = query.randomMovies()
+    return "<h3> Loading Movies... </h3>"
+    if len(films) >= 20:
+        print(len(films))
+    return render_template("result.html", films=films)
 
 
 if __name__ == '__main__':
