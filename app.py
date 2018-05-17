@@ -104,10 +104,13 @@ def logout():
 #@login_required
 def result():
     films = query.randomMovies()
-    return "<h3> Loading Movies... </h3>"
+    
     if len(films) >= 20:
         print(len(films))
-        return render_template("result.html", films = films)
+        for item in films:
+            if len(item["title"]) > 15:
+                item["title"] = item["title"][:14] + "..."
+    return render_template("result.html", films = films)
 
 
 if __name__ == '__main__':

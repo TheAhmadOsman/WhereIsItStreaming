@@ -2,12 +2,18 @@
 {% block html %}
 	{{ super() }}
 {% block result %}
-<div class=container>
+<div class="container">
 	{% for film in range(films|length) %}
-	<div class=col-md-3>
-		<img src="http://image.tmdb.org/t/p/w200//{{films[film]['poster_path']}}" alt="try again">
-	</div>
-	{% endfor %}
+	<div class="col-md-3 panel panel-primary text-center" style="height: 400px; border-radius: 10%;">
+		<div class="panel-heading" style = "border-radius: 8%;">
+		<h4>{{films[film]['title']}}</h4>
+		</div>
+		<div class="panel-body size_hack">
+			<img src="http://image.tmdb.org/t/p/w200//{{films[film]['poster_path']}}" alt="try again" style="border-radius: 10%;">
+		</div>
+		<hr style="border-color:white">
+</div>
+{% endfor %}
 </div>
 {% endblock %}
 {% endblock %}
