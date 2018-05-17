@@ -68,6 +68,27 @@ def insert(userid, movieid, table):
                  (table), (movieid, userid))
 
 
+def randomMovies():
+    res = curs.execute("""SELECT * FROM movies 
+    WHERE id IN (SELECT id FROM movies ORDER BY RANDOM() LIMIT 20)""")
+    film = None
+    filmList = []
+    filmDict = {}
+    for item in res:
+        film = item
+        filmDict["IMDBid"] = film[0]
+        filmDict["id"] = film[1]
+        filmDict["overview"] = film[2]
+        filmDict["genres"] = film[3]
+        filmDict["title"] = film[4]
+        filmDict["release_date"] = film[5]
+        filmDict["homepage"] = film[6]
+        filmDict["poster_path"] = film[7]
+        filmDict["tagline"] = film[8]
+        filmList.append(filmDict)
+    return filmList
+
+
 print(returnFilm("Forrest Gump"))
 print(returnCast("Forrest Gump"))
 print(returnCrew("Forrest Gump"))
