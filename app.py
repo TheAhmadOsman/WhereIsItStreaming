@@ -196,7 +196,16 @@ def searched():
 @app.route("/about", methods=["GET", "POST"])
 @login_required
 def about():
-    return render_template("about.html")
+    form = SearchCriteria()
+    if form.validate_on_submit():
+        search = str(form.search.data)
+        films = query.returnFilm(search)
+        if len(films) == 0:
+            msg = "No results found for %s" % (search)
+            return render_template("main.html", films=[{"title": msg}], form=form)
+        return render_template("main.html", films=films, form=form)
+
+    return render_template("about.html", form=form)
 
 
 if __name__ == '__main__':

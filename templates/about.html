@@ -1,5 +1,7 @@
-<!DOCTYPE html>
-
+<!DOCTYPE html> {% extends "base.html" %} {% block title %} About US!{% endblock %} {% block html %} {{ super() }} {% block result %}
+<br>
+<br>
+<br>
 <div class="container">
     <div class="container">
         <h1 class="text-center">Contributors</h1>
@@ -11,7 +13,8 @@
             <a href="https://github.com/austinreese1998">GitHub</a>.
         </p>
     </div>
-
+    <br>
+    <br>
     <div class="container">
         <h1 class="text-center">Contact Us</h1>
         <p class="text-center">To get in touch with us, please email
@@ -19,3 +22,5 @@
         </p>
     </div>
 </div>
+
+{% block footer %} {{super()}} {% endblock %} {% endblock %} {% endblock %}
