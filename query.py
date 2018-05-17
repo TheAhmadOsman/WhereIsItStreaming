@@ -89,8 +89,8 @@ def randomMovies():
     for film in res:
         if film[7] != "" and len(filmList) < 20:
             filmDict = {}
-            filmDict["IMDBid"] = film[0]
-            filmDict["id"] = film[1]
+            filmDict["id"] = film[0]
+            filmDict["IMDBid"] = film[1]
             filmDict["overview"] = film[2]
             filmDict["genres"] = film[3]
             filmDict["title"] = film[4]

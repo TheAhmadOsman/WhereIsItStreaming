@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -40,6 +40,9 @@ class LoginForm(FlaskForm):
     password = PasswordField('password', validators=[
         InputRequired(), Length(min=8, max=80)])
     remember = BooleanField('remember me')
+
+class SearchCriteria(FlaskForm):
+    search = StringField("Search", validators=[InputRequired(),Length(max=30)])
 
 
 class RegisterForm(FlaskForm):
@@ -124,9 +127,9 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route("/result")
-@login_required
-def result():
+@app.route("/main", methods=['GET', 'POST'])
+#@login_required
+def main():
     films = query.randomMovies()
 
     if len(films) >= 20:
@@ -134,7 +137,35 @@ def result():
         for item in films:
             if len(item["title"]) > 15:
                 item["title"] = item["title"][:14] + "..."
-    return render_template("result.html", films=films)
+    form = SearchCriteria()
+    if form.validate_on_submit():
+        search = str(form.search.data)
+        films = query.returnFilm(search)
+        if len(films) == 0:
+            msg = "No results found for %s" %(search)
+            return render_template("main.html", films = [{"title": msg}] ,form = form)
+        return render_template("main.html", films = films, form = form)
+    return render_template("main.html", films=films, form = form)
+
+@app.route("/movie", methods = ["GET", "POST"])
+#@login_required
+def movie():
+    form = SearchCriteria()
+    if form.validate_on_submit():
+        search = str(form.search.data)
+        films = query.returnFilm(search)
+        if len(films) == 0:
+            msg = "No results found for %s" %(search)
+            return render_template("main.html", films = [{"title": msg}] ,form = form)
+        return render_template("main.html", films = films, form = form)
+    
+    movieid = int(request.args["id"])
+    film = query.returnFilm(movieid)
+    cast = query.returnCast(movieid)
+    crew = query.returnCrew(movieid)
+    ratings = ""
+    ratings = query.returnRatings(movieid)
+    return render_template("movie.html", form = form, film = film, cast = cast, crew = crew, ratings = ratings)
 
 
 if __name__ == '__main__':
