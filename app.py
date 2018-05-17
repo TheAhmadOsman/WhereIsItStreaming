@@ -66,6 +66,9 @@ class SearchCriteria(FlaskForm):
     search = StringField("", validators=[
                          InputRequired(), Length(max=30)])
 
+class Liked(FlaskForm):
+    liked = BooleanField("Like")
+
 
 def streaming(title):
     just_watch = JustWatch(country='US')
@@ -165,17 +168,26 @@ def movie():
             msg = "No results found for %s" % (search)
             return render_template("main.html", films=[{"title": msg}], form=form)
         return render_template("main.html", films=films, form=form)
+    
 
     movieid = int(request.args["id"])
     film = query.returnOneFilm(movieid)
     cast = query.returnCast(movieid)
     crew = query.returnCrew(movieid)
     ratings = query.returnRatings(movieid)
-    rating = round(ratings[0]["rating"])
+    try:
+        rating = round(ratings[0]["rating"])
+    except:
+        rating = 0
     stream = streaming(film[0]["title"])
     rent = stream["rent"]
     buy = stream["buy"]  
-    return render_template("movie.html", rent = rent, buy = buy, form=form, film=film, cast=cast, crew=crew, rating=rating)
+
+    like = Liked()
+    if like.validate_on_submit():
+        query.insert(userid, movieid, "liked")
+    
+    return render_template("movie.html", like = like, rent = rent, buy = buy, form=form, film=film, cast=cast, crew=crew, rating=rating)
 
 
 @app.route("/liked", methods=["GET", "POST"])

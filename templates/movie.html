@@ -3,7 +3,7 @@ film %}
 <div class="container">
 	<div class="col-md-12 text-center">
 		<br>
-		<h1>{{film[0]['title']}}</h1>
+		<h1><b>{{film[0]['title']}}</b></h1>
 		<br>
 		<div class="col-md-6">
 			<img src="http://image.tmdb.org/t/p/w300//{{film[0]['poster_path']}}" alt="Sorry" style="border-radius: 10%;">
@@ -16,7 +16,7 @@ film %}
 			<h3>{{film[0]["genres"]}}</h3>
 		</div>
 		<div class="col-md-6">
-			<h3 style="text-align:justify;">{{film[0]["overview"]}}</h3>
+			<p style="text-align:justify;">{{film[0]["overview"]}}</p>
 		</div>
 			<div class="col-md-6">
 				<h3>Rating</h3>
