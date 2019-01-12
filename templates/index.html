@@ -1,4 +1,4 @@
-<!DOCTYPE html> {% extends "bootstrap/base.html" %} {% block title %} Fun Times &ndash; Your Movies Entertaining Guide! {% endblock %} {%
+<!DOCTYPE html> {% extends "bootstrap/base.html" %} {% block title %} Where Is It Streaming &ndash; Your Movies &amp; Entertainment Guide! {% endblock %} {%
 block styles %} {{super()}}
 <link rel="stylesheet" href="{{url_for('.static', filename='css/index.css')}}">
 <link type="image/x-icon" href="{{url_for( '.static', filename='favicon.ico')}}" rel="shortcut icon"> {% endblock %} {% block content %} {% block navbar %}
@@ -12,7 +12,7 @@ block styles %} {{super()}}
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Fun Times &ndash; Your Movies Entertaining Guide!</a>
+            <a class="navbar-brand" href="/">Where Is It Streaming &ndash; Your Movies &amp; Entertainment Guide!</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -33,7 +33,7 @@ block styles %} {{super()}}
 
 <div class="container">
     <div class="index">
-        <h1>Fun Times &ndash; Your Movies Entertaining Guide!</h1>
+        <h1>Where Is It Streaming &ndash; Your Movies &amp; Entertainment Guide!</h1>
         <br>
         <div>
             <img src="{{url_for('.static', filename='tv-256.png')}}">
@@ -49,6 +49,6 @@ block styles %} {{super()}}
 </div>
 {% block footer %}
 <footer class="panel-heading margin-y-lg text-center align-top bg-dark footer-css" id="footer">
-    <b>Fun Times &copy; 2018</b>
+    <b>Where Is It Streaming &copy; 2019</b>
 </footer>
 {% endblock %}{% endblock %}
