@@ -28,19 +28,13 @@ Currently, Where Is It Streaming supports the following:
   * Username as Primary Key - No Duplicates
   * Email Regex Validation
   * Hashed Passwords (8 to 80 Characters in Length)
-
 * Login
   * Validation System
   * Users' Sessions
-
 * Searching for Movies
-
 * Movies' Genre, Ratings, Summary, and Casting Preview
-
 * Streaming Services, Sellers, and Renters Locator
-
 * Randomly Generated Movies on Main Page
-
 * Logout
 
 ## :camera: Demo and Screenshots :video_camera:
@@ -62,13 +56,9 @@ This web app is written in **Python 3** using Flask. Sqlite DB is used - you wil
 ### Cloning and Virtual Environment
 
 * `git clone https://github.com/Ahmad-Magdy-Osman/WhereIsItStreaming.git`
-
 * `cd WhereIsItStreaming`
-
 * `python3 -m venv venv`
-
 * `source venv/bin/active`
-
 * `pip3 install -r requirements.txt`
 
 ### Generating Movies Database
@@ -76,17 +66,13 @@ This web app is written in **Python 3** using Flask. Sqlite DB is used - you wil
 This step is essential before running the web app.
 
 * Download [The Movies Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset)
-
 * `mkdir data`
-
 * Move CSV files to the 'data' sub-directory.
-
 * Run `python3 db.py`. Should take a minute or two.
 
 ### Running the Web App
 
 * `python3 app.py`
-
 * Visit [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
 ## Tools :eyeglasses:
@@ -104,11 +90,9 @@ Programming Languages, Frameworks, Libraries, APIs, Databases, and Data Formats.
   * APIs
     * [JustWatch](https://github.com/dawoudt/JustWatchAPI)
   * SQLite3
-
 * SQLite
   * SQL
   * CSV Dataset
-
 * HTML & CSS
   * Bootstrap Framework
 
@@ -125,14 +109,12 @@ Programming Languages, Frameworks, Libraries, APIs, Databases, and Data Formats.
   * Movie Page
   * Logout
     * Leads to Landing Page
-
 * Database Tables
   * Movies - Cast - Crew - Ratings - Users
   * Relationships
     * Many to Many: Movies to Cast
     * Many to Many: Movies to Crew
     * One to Many: Ratings
-
 * More to come...
 
 ## Future Plans :soon:
@@ -142,33 +124,26 @@ Some of the features that would be appropriate for Where Is It Streaming. Please
 * General
   * Mobile Responsiveness
   * Project Structure and Cleaning
-
 * Features
   * Mark Movies as Watched or To-Watch
   * Like and Unlike Movies
     * Helps with Recommendation System
   * Account Retrieval via Email
-
 * Views
   * View Search History
   * View Liked and Unliked Movies
   * View Watched and To-Watch Movies
-
 * Movie Recommendation System
   * Based on Liked/Unliked Movies
-  
 * Content
   * Better Dataset with up-to-date Movies and TV Shows
-
 * Marketing
   * SEO
   * Share on Social Media button
-
 * Style/Design
   * Fonts
   * Footer
   * Movies Images
-
 * Read Me
   * Add Collaborates and Contributors
 
