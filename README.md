@@ -72,7 +72,7 @@ This step is essential before running the web app.
 
 ### Running the Web App
 
-* `python3 app.py`
+* Run the Web App using `python3 app.py`
 * Visit [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
 ## Tools :eyeglasses:
