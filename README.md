@@ -51,7 +51,7 @@ Where Is It Streaming                           | Where Is It Streaming
 
 ## Usage :video_game:
 
-This web app is written in **Python 3** using Flask. Sqlite DB is used - you will need, as instructed below, to build a database from [The Movies Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset).
+This web app is written in **Python 3** using **Flask** Web Framework. Frontend uses **Bootstrap** Framework. **Sqlite DB* is used - you will need, as instructed below, to build a database from [The Movies Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset).
 
 ### Cloning and Virtual Environment
 
@@ -65,7 +65,7 @@ This web app is written in **Python 3** using Flask. Sqlite DB is used - you wil
 
 This step is essential before running the web app.
 
-* Download [The Movies Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset)
+* Download [The Movies Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset) and unzip it.
 * `mkdir data`
 * Move CSV files to the 'data' sub-directory.
 * Run `python3 db.py`. Should take a minute or two.
