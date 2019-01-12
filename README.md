@@ -51,7 +51,7 @@ Where Is It Streaming                           | Where Is It Streaming
 
 ## Usage :video_game:
 
-This web app is written in **Python 3** using **Flask** Web Framework. Frontend uses **Bootstrap** Framework. **Sqlite DB* is used - you will need, as instructed below, to build a database from [The Movies Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset).
+This web app is written in **Python 3** using **Flask** Web Framework. Frontend uses **Bootstrap** Framework. **Sqlite DB** is used - you will need, as instructed below, to build a database from [The Movies Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset).
 
 ### Cloning and Virtual Environment
 
