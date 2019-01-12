@@ -50,6 +50,7 @@ Where Is It Streaming                           | Where Is It Streaming
 ![Landing Page](img/readme/1-Landing.png)   |  ![Register](img/readme/2-Register.png)
 ![Invalid Register](img/readme/3-RegisterFailure.png)  |  ![Paths](img/readme/4-Login.png)
 ![Mainpage](img/readme/5-Mainpage.png)  |  ![Searching](img/readme/6-Searching.png)
+
 ![Movie](img/readme/7-Movie.png)
 
 ![Demo](img/readme/Demo.gif)
@@ -140,6 +141,7 @@ Some of the features that would be appropriate for Where Is It Streaming. Please
 
 * General
   * Mobile Responsiveness
+  * Project Structure and Cleaning
 
 * Features
   * Mark Movies as Watched or To-Watch
