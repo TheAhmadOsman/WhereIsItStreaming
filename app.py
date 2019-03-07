@@ -81,6 +81,10 @@ def streaming(title):
                  15:  "Hulu", 8:  "Netflix", 7:  "Vudu", 3:  "Google Play"}
 
     dct = {"rent": [], "buy": []}
+    
+    if not "offers" in results["items"][0]:
+        return dct
+    
     for item in results["items"][0]["offers"]:
         try:
             dct2 = {}

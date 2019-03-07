@@ -11,9 +11,9 @@ db = sqlite3.connect("movies.db")
 curs = db.cursor()
 
 # open our kaggle files
-csvfile = open("data/movies_metadata.csv", "r")
-stars = open("data/credits.csv", "r")
-ratings = open("data/ratings.csv", "r")
+csvfile = open("data/the-movies-dataset/movies_metadata.csv", "r")
+stars = open("data/the-movies-dataset/credits.csv", "r")
+ratings = open("data/the-movies-dataset/ratings.csv", "r")
 
 # initalize DictReader objects for the files
 movieReader = csv.DictReader(csvfile)
