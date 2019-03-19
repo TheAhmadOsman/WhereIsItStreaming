@@ -10,7 +10,7 @@ FILE_PATH = "data/ml-latest/links.csv"
 THREADS = 1
 
 #Use with caution! This will delete the current table if set to True
-NEW_TABLE = True
+NEW_TABLE = False
 
 COLUMN_NAMES = ["adult", "backdrop_path", "belongs_to_collection", "budget", "genres",
                 "homepage", "id", "imdb_id", "original_language", "original_title",
@@ -138,22 +138,24 @@ def getURLs():
 
 def main():
     cur = conn.cursor()
+    
     if NEW_TABLE == True:
         cur.execute("DROP TABLE IF EXISTS movies")  
         cur.execute("DROP TABLE IF EXISTS credits")
+        
     done = 0
-    errors = 0
+    errors = 0    
     
-    urls = getURLs()[:100]
+    urls = getURLs()
     
     with concurrent.futures.ThreadPoolExecutor(max_workers = THREADS) as executor:
         time1 = time.time()
-        
         future_to_url = {executor.submit(
                 retrieve, url): url for url in urls}
         
         for future in concurrent.futures.as_completed(future_to_url):
             row = future_to_url[future]
+            
             try:
                 future.result()
                 done += 1                
