@@ -23,32 +23,6 @@ conn = psycopg2.connect(database = "movies", user = "postgres",
         
 def retrieve(url):
     cur = conn.cursor()
-    response = requests.get(url)
-    if response.status_code != 200:
-        cur.close()
-        raise Exception(f"response code {response.status_code}")
-    resDict = json.loads(response.content)
-    valueList = []
-    for col in COLUMN_NAMES:
-        try:
-            if resDict[col] == "":
-                valueList.append(None)
-            else:
-                if type(resDict[col]) == type({}):
-                    valueList.append(json.dumps(resDict[col]))
-                elif type(resDict[col]) == type([]):
-                    stringifyList = []
-                    for item in resDict[col]:
-                        stringifyList.append(json.dumps(item))
-                    valueList.append(stringifyList)
-                else:
-                    valueList.append(resDict[col])
-        except:
-            valueList.append(None)
-            
-    #Error = False
-    valueList.append(False)
-    
     
     cur.execute('''CREATE TABLE IF NOT EXISTS "movies"(
               adult BOOLEAN,
@@ -76,8 +50,44 @@ def retrieve(url):
               video BOOLEAN,
               vote_average FLOAT,
               vote_count INT,
-              error BOOLEAN
+              error BOOLEAN,
+              error_code TEXT
             );''')
+    
+    cur.execute('''CREATE TABLE IF NOT EXISTS "credits"(
+              filmCast TEXT [],
+              filmCrew TEXT [],
+              id INT PRIMARY KEY,
+              error BOOLEAN,
+              error_code TEXT
+            );''')    
+    
+    response = requests.get(url)
+    if response.status_code != 200:
+        cur.close()
+        raise Exception(f"response code {response.status_code}")
+    resDict = json.loads(response.content)
+    valueList = []
+    for col in COLUMN_NAMES:
+        try:
+            if resDict[col] == "":
+                valueList.append(None)
+            else:
+                if type(resDict[col]) == type({}):
+                    valueList.append(json.dumps(resDict[col]))
+                elif type(resDict[col]) == type([]):
+                    stringifyList = []
+                    for item in resDict[col]:
+                        stringifyList.append(json.dumps(item))
+                    valueList.append(stringifyList)
+                else:
+                    valueList.append(resDict[col])
+        except:
+            valueList.append(None)
+            
+    #error = False, error_code = None
+    valueList.append(False)
+    valueList.append(None)
     
     strings = "("
     
@@ -88,15 +98,11 @@ def retrieve(url):
         cur.execute(f'''INSERT INTO movies
         VALUES {strings}''', valueList)
     except psycopg2.IntegrityError:
+        cur.close()
         print(f"id {valueList[6]} has already been assigned")
+        return
         
     #onto credits
-    cur.execute('''CREATE TABLE IF NOT EXISTS "credits"(
-              filmCast TEXT [],
-              filmCrew TEXT [],
-              id INT PRIMARY KEY,
-              error BOOLEAN
-            );''')
     
     valueList = []
     stringifyList = []
@@ -110,7 +116,10 @@ def retrieve(url):
     valueList.append(stringifyList)
     
     valueList.append(resDict["id"])
+    
+    #error = False, error_code = None
     valueList.append(False)
+    valueList.append(None)
     
     strings = "("
     
@@ -122,7 +131,9 @@ def retrieve(url):
         cur.execute(f'''INSERT INTO credits
         VALUES {strings}''', valueList)
     except psycopg2.IntegrityError:
-        print(f"id {valueList[6]} has already been assigned")    
+        cur.close()
+        print(f"id {valueList[6]} has already been assigned")
+        return
     
     cur.close()
     
@@ -133,6 +144,8 @@ def getURLs():
     with open(FILE_PATH) as f:
         for row in DictReader(f):
             tmdbId = row["tmdbId"]
+            if not tmdbId:
+                continue
             urls.append(f"https://api.themoviedb.org/3/movie/{tmdbId}?api_key={API_KEY}&language=en-US&external_source=imdb_id&append_to_response=credits")
     return urls
 
@@ -146,7 +159,7 @@ def main():
     done = 0
     errors = 0    
     
-    urls = getURLs()
+    urls = getURLs()[:150]
     
     with concurrent.futures.ThreadPoolExecutor(max_workers = THREADS) as executor:
         time1 = time.time()
@@ -155,14 +168,36 @@ def main():
         
         for future in concurrent.futures.as_completed(future_to_url):
             row = future_to_url[future]
-            
+                        
             try:
                 future.result()
-                done += 1                
+                done += 1
+            except ValueError:
+                continue
             except Exception as exc:
-                #print(row, "generated an error", exc)
                 print(f"Error: {exc}")
                 errors += 1
+                idBegin = row.find("/movie")
+                idEnd = row.find("?")
+                try:
+                    errId = int(row[idBegin + 7:idEnd])
+                except:
+                    print("Invalid id, skipping entry")
+                    continue
+                try:
+                    cur.execute('''INSERT INTO movies (id, error, error_code)
+                    VALUES (%s, %s, %s)''', [errId, True, str(exc)])
+                except psycopg2.IntegrityError:
+                    print(f"id {errId} has already been assigned")
+                    conn.rollback()
+                    
+                try:
+                    cur.execute('''INSERT INTO credits (id, error, error_code)
+                    VALUES (%s, %s, %s)''', [errId, True, str(exc)]) 
+                except psycopg2.IntegrityError:
+                    print(f"id {errId} has already been assigned")
+                    conn.rollback()
+                    
             if done % THREADS == 0:
                 print(f"{done} entries logged")
                 print(f"{errors} errors encountered")
@@ -179,9 +214,10 @@ def main():
     filmCount = cur.fetchall()[0][0]
     
     cur.execute("SELECT COUNT(*) FROM credits")
-    creditCount = cur.fetchall()[0][0]  
+    creditCount = cur.fetchall()[0][0]
     
-    print(f"{filmCount} films and {creditCount} credits added in {completedTime} seconds")
+    print(f"Database size: {filmCount} films and {creditCount} credits")
+    print(f"Runtime: {completedTime} seconds")
     
     cur.close()
     conn.close()
