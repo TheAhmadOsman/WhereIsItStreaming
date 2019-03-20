@@ -159,7 +159,7 @@ def main():
     done = 0
     errors = 0    
     
-    urls = getURLs()[:150]
+    urls = getURLs()
     
     with concurrent.futures.ThreadPoolExecutor(max_workers = THREADS) as executor:
         time1 = time.time()
