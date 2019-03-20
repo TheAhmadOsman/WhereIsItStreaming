@@ -24,46 +24,14 @@ conn = psycopg2.connect(database = "movies", user = "postgres",
 def retrieve(url):
     cur = conn.cursor()
     
-    cur.execute('''CREATE TABLE IF NOT EXISTS "movies"(
-              adult BOOLEAN,
-              backdrop_path TEXT,
-              belongs_to_collection TEXT,
-              budget TEXT,
-              genres TEXT [],
-              homepage TEXT,
-              id INT PRIMARY KEY ,
-              imdb_id TEXT,
-              original_language TEXT,
-              original_title TEXT,
-              overview TEXT,
-              popularity FLOAT,
-              poster_path TEXT,
-              production_companies TEXT [],
-              production_countries TEXT [],
-              release_date TEXT,
-              revenue INT,
-              runtime INT,
-              spoken_languages TEXT [],
-              status TEXT,
-              tagline TEXT,
-              title TEXT,
-              video BOOLEAN,
-              vote_average FLOAT,
-              vote_count INT,
-              error BOOLEAN,
-              error_code TEXT
-            );''')
-    
-    cur.execute('''CREATE TABLE IF NOT EXISTS "credits"(
-              filmCast TEXT [],
-              filmCrew TEXT [],
-              id INT PRIMARY KEY,
-              error BOOLEAN,
-              error_code TEXT
-            );''')    
-    
     response = requests.get(url)
-    if response.status_code != 200:
+    
+    if response.status_code == 429:
+        print("Received code 429, retrying in 10 seconds")
+        time.sleep(10)
+        response = requests.get(url)
+        
+    if response.status_code != 200:        
         cur.close()
         raise Exception(f"response code {response.status_code}")
     resDict = json.loads(response.content)
@@ -88,7 +56,7 @@ def retrieve(url):
     #error = False, error_code = None
     valueList.append(False)
     valueList.append(None)
-    
+        
     strings = "("
     
     for i in range(len(valueList)):
@@ -154,7 +122,45 @@ def main():
     
     if NEW_TABLE == True:
         cur.execute("DROP TABLE IF EXISTS movies")  
-        cur.execute("DROP TABLE IF EXISTS credits")
+        cur.execute("DROP TABLE IF EXISTS credits")    
+    
+    cur.execute('''CREATE TABLE IF NOT EXISTS "movies"(
+              adult BOOLEAN,
+              backdrop_path TEXT,
+              belongs_to_collection TEXT,
+              budget TEXT,
+              genres TEXT [],
+              homepage TEXT,
+              id INT PRIMARY KEY ,
+              imdb_id TEXT,
+              original_language TEXT,
+              original_title TEXT,
+              overview TEXT,
+              popularity FLOAT,
+              poster_path TEXT,
+              production_companies TEXT [],
+              production_countries TEXT [],
+              release_date TEXT,
+              revenue INT,
+              runtime INT,
+              spoken_languages TEXT [],
+              status TEXT,
+              tagline TEXT,
+              title TEXT,
+              video BOOLEAN,
+              vote_average FLOAT,
+              vote_count INT,
+              error BOOLEAN,
+              error_code TEXT
+            );''')
+    
+    cur.execute('''CREATE TABLE IF NOT EXISTS "credits"(
+              filmCast TEXT [],
+              filmCrew TEXT [],
+              id INT PRIMARY KEY,
+              error BOOLEAN,
+              error_code TEXT
+            );''')
         
     done = 0
     errors = 0    
@@ -168,13 +174,12 @@ def main():
         
         for future in concurrent.futures.as_completed(future_to_url):
             row = future_to_url[future]
-                        
+            
             try:
                 future.result()
                 done += 1
-            except ValueError:
-                continue
             except Exception as exc:
+                conn.rollback()
                 print(f"Error: {exc}")
                 errors += 1
                 idBegin = row.find("/movie")
@@ -197,7 +202,7 @@ def main():
                 except psycopg2.IntegrityError:
                     print(f"id {errId} has already been assigned")
                     conn.rollback()
-                    
+
             if done % THREADS == 0:
                 print(f"{done} entries logged")
                 print(f"{errors} errors encountered")
