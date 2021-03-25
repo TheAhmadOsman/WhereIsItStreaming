@@ -23,7 +23,7 @@ packaging==18.0
 pip-review==1.0
 pyparsing==2.3.0
 pytz==2018.9
-PyYAML==3.13
+PyYAML==5.4
 records==0.5.2
 requests==2.21.0
 six==1.12.0
